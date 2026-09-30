@@ -17,7 +17,7 @@ This extends the earlier verification records; their Docker/Telegram blockers we
 - [x] Correct the headline option encoding without stripping legitimate commas, changing search ranking, or introducing Telegram markup.
 - [x] Rerun the full container suite, lint/format and health/readiness after rebuilding; preserve the live post and pending/sent reply data.
 - [x] Inspect and commit only relevant code/tests/documentation using the user's configured identity; never commit .env or push.
-- [x] Ask for a new live search and verify post-fix rendering. The user reported the clean snippet and later the edited snippet; live pagination remains pending.
+- [x] Ask for a new live search and verify post-fix rendering. The user reported clean/edited snippets and later a successful live Next/Previous round-trip.
 
 ## Root-cause experiment
 
@@ -70,6 +70,14 @@ The user edited the same channel post from `Python async tutorial with coroutine
 
 A read-only database/search check confirmed one row for that post, the exact edited body, an event timestamp later than the posting timestamp, retention of the original posting date, and retrieval of the new cancellation text through the production search module. This demonstrates a live edit update rather than a newly inserted replacement post. The user performed posting/editing and observed bot replies; the agent performed the DB verification. No claim of deletion tracking or arbitrary history access is made.
 
-## Remaining live checks
+## Live pagination verification
 
-Live next/previous buttons require at least six matching posts and have not yet been exercised. Hosted HTTPS webhook registration/delivery, GitHub-hosted CI and deployment are still unverified. This formatting repair is not retroactively counted as one of the three intentional exercises.
+The user published five additional matching demo posts, searched `/search python async`, and supplied the bot's first page, Next page and Previous response. Observed identity order: first page `[9,7,6,5,8]` (Results 1–5 of 6), Next `[4]` (Results 6–6 of 6), then Previous `[9,7,6,5,8]` again. The pages covered all six results without overlap; Previous restored the same order/snippets. This is a local live Telegram callback demonstration, not merely a unit-test assertion.
+
+An agent read-only check of the stored six-result session matched that exact identity sequence and validated the production page slices, disjoint identities, complete snapshot coverage and stable return to page zero. No owner IDs, callback tokens or credentials were printed/stored in this record. The user performed the button clicks and reported their replies; the agent checked the snapshot.
+
+## Current verification boundary
+
+Local Docker build/start/health, 50 host/container tests, approved-post ingestion, clean live search, live edit handling and Next/Previous callbacks are now verified as described above. Credential-free replay/version/recovery tests remain distinct from the user-observed live actions; no exactly-once outbound claim is added.
+
+Hosted HTTPS webhook registration/delivery, GitHub-hosted CI, deployment/hosting restart recovery, backup restoration and real Telegram flood-control behavior remain unverified. No public push was made during this verification sequence. This formatting repair is not retroactively counted as one of the three intentional exercises.
