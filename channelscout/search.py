@@ -36,7 +36,7 @@ def parse_search(text):
 SEARCH_SQL = """WITH q AS (SELECT plainto_tsquery('english', %s) AS query)
     SELECT chat_id, message_id, channel_name, username, posted_at,
            ts_headline('english', body, q.query,
-                       'StartSel=, StopSel=, MaxWords=20, MinWords=8') AS snippet,
+                       'StartSel="", StopSel="", MaxWords=20, MinWords=8') AS snippet,
            ts_rank_cd(document, q.query, %s) AS rank
     FROM posts CROSS JOIN q
     WHERE document @@ q.query AND (%s::date IS NULL OR posted_at >= %s::date)

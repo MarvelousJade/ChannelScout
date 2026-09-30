@@ -1,6 +1,6 @@
 # Verification record
 
-All observations below are local and agent-performed. No production traffic, customer impact, learner investigation, live bot or hosted deployment is claimed.
+The original build/repair observations below are local and agent-performed. Later, the user supplied demo credentials and reported a live bot result; Docker and that live workflow are recorded separately in [live-verification.md](live-verification.md). No production traffic, customer impact, independent learner diagnosis or hosted deployment is claimed.
 
 ## Environment and reproducibility
 
@@ -89,4 +89,4 @@ Before merge, rework passed 46 tests. The non-squashed merged tree retained main
 
 Latest merged-tree benchmark: indexed p50/p95 3.116/3.803 ms, absent-index 5.605/8.509 ms, mean P@5 0.933. Raw report: `debugging/merged-benchmark.json`. These remain local synthetic database-client measurements, not Telegram latency or production results. The pre-merge run is also preserved in `debugging/rework-benchmark.json`.
 
-No push/reset/force-push/history rewrite was performed in this repair session. A final pre-commit rerun passed all 48 tests in 15.05s, lint/format, Compose configuration and real HTTP health/readiness/disabled-webhook checks. The user authorized the final merge commit under the configured Shaoyu identity; actual investigation remains agent-performed. The committed merge will also be rechecked at completion. Docker runtime remains blocked by the unavailable daemon; live Telegram, hosted CI and deployment remain unverified. None of these repairs is attributed to the learner's independent work.
+No push/reset/force-push/history rewrite was performed in this repair session. A final pre-commit rerun passed all 48 tests in 15.05s, lint/format, Compose configuration and real HTTP health/readiness/disabled-webhook checks. The user authorized the final merge commit under the configured Shaoyu identity; actual investigation remains agent-performed. The committed merge will also be rechecked at completion. At that repair checkpoint Docker runtime was blocked and live Telegram, hosted CI and deployment were unverified. None of those repairs is attributed to the learner's independent work. Subsequently Docker was reached through the Windows client: startup, health/readiness and 50 container tests passed, and the user reported a live indexed-post search. A genuine headline-formatting defect was reproduced and fixed with failing regressions. See `live-verification.md` for current evidence and still-pending live edit/buttons and hosted checks; the earlier measurements are not rewritten.

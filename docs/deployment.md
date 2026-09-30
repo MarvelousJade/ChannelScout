@@ -1,6 +1,6 @@
 # Deployment (instructions, not a completed deployment)
 
-Use one Python container/one worker and one PostgreSQL instance. Deployment requires explicit hosting authorization, a bot token and your controlled public demo channel. None was supplied for this build.
+Use one Python container/one worker and one PostgreSQL instance. Deployment requires explicit hosting authorization, a bot token and your controlled public demo channel. Hosting authorization has not been supplied. A local demo bot token/channel were provided later and tested as recorded in `docs/live-verification.md`; this is not a hosted deployment.
 
 1. Build the Docker image and verify `MODE=off` locally; run tests on a disposable database.
 2. Provision persistent PostgreSQL 18 with backups. Use a non-superuser application role that owns only this app's schema, secure credentials and a private connection (TLS for remote DB). DSNs must URL-encode credentials.
@@ -16,4 +16,4 @@ Repair upgrade: migrations 004 and 005 retain exercise history and restore ident
 
 Readiness checks DB/schema, not Telegram reachability or delivery backlog. No HA, production load evidence, auto-migration rollback or deletion reconciliation. Schema migrations are additive in this baseline; take backups before future destructive changes.
 
-Manual acceptance (still unverified): HTTPS certificate, webhook registration and secret delivery from Telegram, membership permissions, live post/edit ingestion, live outbound formatting/buttons, bot rate-limit behavior, hosting restart recovery and backup restoration.
+Local progress: Docker startup/health and credential-free container tests passed; demo bot administrator membership and a live channel-post/private-bot search were observed. See `docs/live-verification.md` for the snippet repair and current evidence. Manual acceptance still pending: hosted HTTPS certificate/webhook registration/secret delivery, post-fix live formatting confirmation, live edits/buttons, real flood-control behavior, hosting restart recovery and backup restoration.

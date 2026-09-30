@@ -31,6 +31,24 @@ def test_date_parse_and_pages():
         page(results, -1)
 
 
+@pytest.mark.parametrize(
+    "body",
+    [
+        "Python async tutorial with coroutine examples",
+        "Python, async: tutorial (examples)!",
+    ],
+)
+async def test_plain_snippet_preserves_source_punctuation(db, body):
+    from channelscout.ingestion import Ingestor
+    from test_ingestion import post
+
+    await Ingestor(db, {-100123}).process(post(text=body))
+    async with db.pool.connection() as conn:
+        results = await search(conn, SearchRequest("python async"))
+    assert len(results) == 1
+    assert results[0]["snippet"] == body
+
+
 async def test_rank_date_and_deterministic_ties(db):
     await seed(db)
     async with db.pool.connection() as conn:

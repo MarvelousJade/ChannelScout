@@ -99,11 +99,12 @@ Checked current [PTB v22.8 documentation](https://docs.python-telegram-bot.org/e
 
 ## Evidence and interview material
 
-- [Verification](docs/verification.md): real local results and blocked checks.
+- [Verification](docs/verification.md): original local results and blockers.
+- [Docker/live verification](docs/live-verification.md): container checks, observed Telegram search and snippet-formatting repair.
 - [Engineering decisions](docs/engineering-decisions.md): alternatives, evidence, limits.
 - [Deployment](docs/deployment.md), [demo script](docs/demo.md).
 - [Interview guide](docs/interview-guide.md): trace the code rather than memorize claims.
 - [Debugging exercises](docs/debugging/README.md): original faulty checkpoints remain available.
 - [Autonomous repair report](docs/debugging/repairs.md): authorized solutions, regression evidence, individual fix commits and non-squashed local merge (spoilers).
 
-**Status:** 48 tests pass on the repaired merged tree, including forward schema recovery and preserved main-only checks; local PostgreSQL and fake-Telegram integration verified; real Telegram, Docker image execution, hosted webhooks and GitHub-hosted CI are not yet verified. See verification for exact commands and results.
+**Status:** 50 tests pass on native PostgreSQL and in Docker. Docker startup/health/readiness and a live channel-post/private-bot search were observed. The snippet-formatting fix is rebuilt and DB-verified; a new user search is needed to confirm its live rendering. Live edits/buttons, hosted webhooks, GitHub-hosted CI and deployment remain unverified. See the verification records for commands and limitations.
