@@ -11,13 +11,13 @@ async def run(command):
     await db.open()
     try:
         await db.migrate()
-        if command == 'seed':
+        if command == "seed":
             await seed(db)
     finally:
         await db.close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('command', choices=['migrate', 'seed'])
+    parser.add_argument("command", choices=["migrate", "seed"])
     asyncio.run(run(parser.parse_args().command))

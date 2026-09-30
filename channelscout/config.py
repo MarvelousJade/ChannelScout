@@ -24,7 +24,10 @@ class Settings(BaseSettings):
             raise ValueError("Telegram mode requires a token")
         if self.mode == "webhook":
             import re
+
             secret = self.webhook_secret.get_secret_value()
-            if not self.webhook_url.startswith("https://") or not re.fullmatch(r"[\w-]{1,256}", secret, re.ASCII):
+            if not self.webhook_url.startswith("https://") or not re.fullmatch(
+                r"[\w-]{1,256}", secret, re.ASCII
+            ):
                 raise ValueError("Webhook requires HTTPS URL and valid secret")
         return self
