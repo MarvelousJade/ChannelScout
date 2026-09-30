@@ -36,7 +36,25 @@ pytest tests/test_rework_duplicates.py::test_distinct_updates_share_one_post_ide
 
 **Two-minute interview walkthrough (agent work):** Problem: repeated database rows. Hypothesis: concurrent absence checks were not protected. Evidence: controlled same-update and distinct-update deliveries both duplicated posts. Decision: let PostgreSQL enforce identities rather than add a process lock. Fix: unique claims plus UPSERT, with a forward recovery migration for damaged schemas. Verification: seven targeted real-PostgreSQL checks, including preservation/rollback of repair data. Explain that this prevents duplicate DB effects, not exactly-once Telegram replies.
 
-## B — pending autonomous repair
+## B — delayed events overwrite edits
+
+**Symptoms/reproduction:** after A was fixed, exercise B still changed `Corrected coroutine examples` back to `Outdated coroutine examples`. New same-second and concurrent-stale-version regressions failed as well. The concurrent test seeded the winning version, then concurrently delivered an older timestamp with a higher ID, a lower ID from the same second, and a delayed original. Stored content ended as `delayed original`.
+
+```sh
+pytest tests/test_exercises.py::test_exercise_b_delayed_event tests/test_rework_event_versions.py -q
+```
+
+Actual pre-fix result: **3 failed, 1 passed in 9.35s**. The passing case already accepted a later timestamp with a lower update ID; this behavior was preserved, not treated as evidence that the stale-event bug was absent.
+
+**Hypothesis/root cause:** identity protection prevents duplicate rows but does not choose the correct revision. The learning update (and A's intentionally identity-only UPSERT) wrote unconditionally; arrival/lock order determined the final content. Reading versions in Python before updating would introduce another race.
+
+**Fix:** put the strict `(incoming event_at, incoming update_id) > (stored event_at, stored event_update_id)` comparison in PostgreSQL's `ON CONFLICT DO UPDATE ... WHERE`. Source timestamp is primary (`edit_date or date`), and update ID breaks equal-second ties only. Ignore older/equal versions while still committing their update receipt. Do not update the original posting date.
+
+**Tradeoffs:** Telegram does not provide a perfect message-revision identifier. Timestamp precision is one second, and update IDs can reset after long inactivity; the documented tuple is a deterministic policy, not universal source-clock truth. The guard cannot reconstruct content already lost by the faulty implementation. A lower ID with a genuinely newer timestamp must still win. No deletion or exactly-once reply guarantee is added.
+
+**Verification:** **12 passed in 3.94s**, lint passed: all new event tests, original delayed/newer/same-second edits, A's concurrency/recovery checks, original duplicate delivery, allowlist/text removal and rollback/retry. C remains unfixed at this checkpoint; full-suite success is not yet claimed.
+
+**Two-minute interview walkthrough (agent work):** Problem: corrected text reverted. Hypothesis: arrival order was being used as version order. Evidence: delayed older events, equal-second lower IDs and concurrent old arrivals all replaced the seeded winner. Decision: make the version decision part of the row mutation under the database's lock. Fix: strict source-time/update-ID predicate on UPSERT. Verification: stale versions no longer modify content, later timestamps still win even with a lower ID, and receipt/rollback behavior remains intact.
 
 ## C — pending autonomous repair
 

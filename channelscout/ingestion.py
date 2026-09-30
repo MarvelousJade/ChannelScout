@@ -11,6 +11,7 @@ UPSERT_POST = """INSERT INTO posts
         channel_name=excluded.channel_name, username=excluded.username,
         body=excluded.body, event_at=excluded.event_at,
         event_update_id=excluded.event_update_id
+    WHERE (excluded.event_at, excluded.event_update_id) > (posts.event_at, posts.event_update_id)
 """
 
 
