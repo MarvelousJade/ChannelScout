@@ -17,7 +17,7 @@ This extends the earlier verification records; their Docker/Telegram blockers we
 - [x] Correct the headline option encoding without stripping legitimate commas, changing search ranking, or introducing Telegram markup.
 - [x] Rerun the full container suite, lint/format and health/readiness after rebuilding; preserve the live post and pending/sent reply data.
 - [x] Inspect and commit only relevant code/tests/documentation using the user's configured identity; never commit .env or push.
-- [ ] Ask for a new live search (old pagination snapshots intentionally retain old snippets). Live edit/pagination demonstrations remain pending until actually observed.
+- [x] Ask for a new live search and verify post-fix rendering. The user reported the clean snippet and later the edited snippet; live pagination remains pending.
 
 ## Root-cause experiment
 
@@ -43,7 +43,7 @@ Before changing production SQL, both new exact-snippet regressions failed (**2 f
 
 Fixed `StartSel` and `StopSel` by explicitly quoting their empty values in the option string. Afterward: **50 passed in 15.64s** on the native PostgreSQL setup; lint/format passed. Rebuilt/restarted only the app container, retaining its database volume, then **50 passed in 11.85s** in Python 3.12.14 against the isolated container test DB. Disabled pytest's cache provider for that read-only/non-root image; the existing Starlette warning remains.
 
-Real HTTP health/readiness passed again on port 18000. A read-only call to the rebuilt search module returned the exact clean snippet for the existing live demo post. Original post identity/text were preserved and polling remains enabled. No post-fix user-visible Telegram rendering claim is made until the user sends another search; previously saved snapshots deliberately retain their prior snippet.
+Real HTTP health/readiness passed again on port 18000. A read-only call to the rebuilt search module returned the exact clean snippet for the existing live demo post. Original post identity/text were preserved and polling remains enabled. The user subsequently sent another search and reported the clean snippet, confirming post-fix live rendering. Previously saved snapshots deliberately retain their prior snippet.
 
 ## Reproduction and runtime commands
 
@@ -64,6 +64,12 @@ curl.exe -f http://127.0.0.1:18000/ready
 
 For container tests, create a separate disposable database and set TEST_DATABASE_URL to it. In the test child process set MODE=off and clear TELEGRAM_TOKEN/ALLOWED_CHAT_IDS, leaving the running polling service's environment unchanged. Run `pytest -q -p no:cacheprovider`. Never point fixtures at the live DB. Credentials and `.local` runtime artifacts remain ignored and were not committed.
 
+## Live edit verification
+
+The user edited the same channel post from `Python async tutorial with coroutine examples` to `Python async tutorial with cancellation examples`, then searched `/search python async cancellation`. They reported the new snippet, unchanged posting date (2026-09-30), and the same original-message link ending `/4`.
+
+A read-only database/search check confirmed one row for that post, the exact edited body, an event timestamp later than the posting timestamp, retention of the original posting date, and retrieval of the new cancellation text through the production search module. This demonstrates a live edit update rather than a newly inserted replacement post. The user performed posting/editing and observed bot replies; the agent performed the DB verification. No claim of deletion tracking or arbitrary history access is made.
+
 ## Remaining live checks
 
-Ask the user to send a new `/search python async` and confirm the comma-free result, then edit their channel post and run another search to verify the update. Live next/previous buttons require enough matching posts and have not yet been exercised. Hosted HTTPS webhook registration/delivery, GitHub-hosted CI and deployment are still unverified. This formatting repair is not retroactively counted as one of the three intentional exercises.
+Live next/previous buttons require at least six matching posts and have not yet been exercised. Hosted HTTPS webhook registration/delivery, GitHub-hosted CI and deployment are still unverified. This formatting repair is not retroactively counted as one of the three intentional exercises.
