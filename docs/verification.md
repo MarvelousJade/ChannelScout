@@ -24,7 +24,7 @@ DATABASE_URL=postgresql://nobody@127.0.0.1:55432/scout_test python -m scripts.pa
 
 ## Functional checks
 
-Latest baseline run: **31 tests passed**, lint and formatting checks passed. No Telegram credentials. Tests use actual PostgreSQL, fake Telegram responses and actual PTB request serialization. Fixtures truncate app tables and must never run on a live DB.
+Original build baseline: **31 tests passed**, lint and formatting checks passed. The later repaired merged tree passes **48 tests**; see the repair verification below. No Telegram credentials. Tests use actual PostgreSQL, fake Telegram responses and actual PTB request serialization. Fixtures truncate app tables and must never run on a live DB.
 
 Covered: migrations/seed repeatability; concurrent duplicate receipt claims and concurrent edit convergence; allowlist; post text removal; newer edits, delayed originals/edits and same-second ties; processing rollback/retry; relevance, stable ordering, date filters; snapshots, ownership/expiry/previous-next; invalid/no-results input; secret redaction; webhook header/body/replay and 503 recovery; search timeout response; rate-limit deadlines, permanent errors, five-attempt exhaustion; polling offset commit boundary. Exercise regressions pass on baseline.
 
@@ -75,6 +75,18 @@ The first experiment showed no index improvement. Bulk-loaded GIN pending entrie
 
 No real bot token/channel/hosting authorization: live Telegram commands, permissions, post/edit notifications, outbound formatting, callbacks, hosted HTTPS secret headers and deployment were not tested. Docker daemon unavailable: Compose image build/start and container tests blocked. GitHub Actions is authored, not executed remotely; nothing was pushed. Exactly-once outbound delivery, channel deletions, backfill, HA, public abuse resistance and production load are not promised.
 
-## Final checks
+## Original build final checks
 
-After exercises, switched to `codex/channelscout` and the separate pristine baseline test DB. **31 passed in 16.54s**, one Starlette deprecation warning. Lint/format, editable package installation, compileall, migration/seed CLI, benchmark rerun, real HTTP health/readiness, disabled webhook HTTP 404, Compose configuration and diff whitespace checks passed. The final benchmark preserved P@5 0.933 and records 12 logical CPUs reported by this environment (shared virtualized machine, not dedicated benchmark hardware). See `debugging/evidence.md` for exact faulty checkpoint hashes and real failing assertions; instructor notes live separately. No push/history rewrite was performed. Eventual learner fixes, live Telegram, Docker runtime, hosted CI and deployment remain unverified.
+After exercises, switched to `codex/channelscout` and the separate pristine baseline test DB. **31 passed in 16.54s**, one Starlette deprecation warning. Lint/format, editable package installation, compileall, migration/seed CLI, benchmark rerun, real HTTP health/readiness, disabled webhook HTTP 404, Compose configuration and diff whitespace checks passed. The final benchmark preserved P@5 0.933 and records 12 logical CPUs reported by this environment (shared virtualized machine, not dedicated benchmark hardware). See `debugging/evidence.md` for exact faulty checkpoint hashes and real failing assertions; instructor notes live separately. No push/history rewrite was performed. Learner-performed fixes, live Telegram, Docker runtime, hosted CI and deployment remained unverified at that original checkpoint.
+
+## Authorized autonomous repairs and local merge
+
+The later repair session created `shaoyu/rework` from the faulty learning branch, reproduced all three bugs and added new failing regressions before each fix. Separate fixes: `3019afc` (identities/recovery), `1150727` (stale events), `7f96c54` (page boundaries). Consult [repair report](debugging/repairs.md) for symptoms, commands, root causes, tradeoffs and interview explanations with explicit agent attribution.
+
+Before merge, rework passed 46 tests. The non-squashed merged tree retained main's config-secret fix and concurrent-edit regression and passed **48 tests in 16.69s** with one existing Starlette warning; lint/format, packaging/dependency check, compileall, migration/seed, synthetic benchmark and Compose configuration passed. The original baseline reports above are preserved, not overwritten.
+
+`python -m scripts.upgrade_probe --baseline 800fcba` against a NEW disposable DB preserved before/after row fingerprints for 10000 posts, a receipt, pending outbox intent and search session across two migration calls. `debugging/main-upgrade.json` records that check; recovery from a damaged 004 schema and failure rollback are tested separately.
+
+Latest merged-tree benchmark: indexed p50/p95 3.116/3.803 ms, absent-index 5.605/8.509 ms, mean P@5 0.933. Raw report: `debugging/merged-benchmark.json`. These remain local synthetic database-client measurements, not Telegram latency or production results. The pre-merge run is also preserved in `debugging/rework-benchmark.json`.
+
+No push/reset/force-push/history rewrite was performed in this repair session. A final pre-commit rerun passed all 48 tests in 15.05s, lint/format, Compose configuration and real HTTP health/readiness/disabled-webhook checks. The user authorized the final merge commit under the configured Shaoyu identity; actual investigation remains agent-performed. The committed merge will also be rechecked at completion. Docker runtime remains blocked by the unavailable daemon; live Telegram, hosted CI and deployment remain unverified. None of these repairs is attributed to the learner's independent work.

@@ -24,7 +24,7 @@ class Database:
     async def ready(self):
         async with self.pool.connection() as conn:
             cur = await conn.execute(
-                "SELECT 1 FROM schema_versions WHERE version = '003_delivery.sql'"
+                "SELECT 1 FROM schema_versions WHERE version = '005_restore_ingestion_identity.sql'"
             )
             if not await cur.fetchone():
                 raise RuntimeError("migrations incomplete")

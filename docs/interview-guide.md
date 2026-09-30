@@ -34,6 +34,18 @@ For each exercise, write your actual notes:
 
 Identify which hypotheses were your own and which came from hints or AI. Include unsuccessful experiments. No learner investigation has happened yet; no personal debugging story is supplied.
 
+## Later autonomous debugging walkthroughs
+
+The user authorized the agent to repair the exercises autonomously. Actual commands, failing regressions, tradeoffs and individual fix commits are in [repairs.md](debugging/repairs.md). These are real local debugging observations of deliberately injected defects, **not production incidents or evidence of your independent investigation**.
+
+- **Duplicate ingestion:** problem—concurrent deliveries produced repeated rows; hypothesis—absence checks were unprotected; evidence—same-update counts `(2,2)` and distinct updates creating two posts; decision/fix—database uniqueness, atomic receipt claims and UPSERT, plus an archival forward migration; verification—race, recovery, FK/PK and rollback tests pass.
+- **Stale edits:** problem—revised text reverted; hypothesis—arrival order controlled state; evidence—older timestamps, same-second lower IDs and concurrent older arrivals replaced the winner; decision/fix—strict event-time/update-ID comparison in the UPSERT; verification—older events ignored, newer timestamps accepted, original posting date retained.
+- **Pagination:** problem—overlapping results and incorrect tail pages; hypothesis—inconsistent page math; evidence—15 entries contained 13 identities, and a 100-result tail returned 76–80 instead of 95–99; decision/fix—use the same five-item stride for slices and controls; verification—exact tail, coverage, tied-score integration and navigation checks pass.
+
+The merged tree passes 48 tests. An upgrade probe preserved fingerprints of 10000 baseline posts and a receipt, pending reply and search session. Follow-up questions: Why is an application lock insufficient? How do you choose an ambiguous duplicate survivor without pretending to know source truth? Why archive removed rows? Why must stale checking occur inside the mutation? What freshness does snapshot pagination sacrifice? How can a non-squashed merge preserve repairs when main already had correct baseline behavior?
+
+After reproducing this work yourself, replace these agent descriptions with your actual notes and identify where instructor/AI guidance influenced your decisions.
+
 ## Suggested resume bullets (project facts, use only after understanding/reproducing)
 
 - ChannelScout: Python/FastAPI Telegram integration with PostgreSQL full-text search, owner-bound pagination, allowlisted post/edit ingestion and transactionally deduplicated update processing; verified locally using PostgreSQL and a simulated Telegram API.

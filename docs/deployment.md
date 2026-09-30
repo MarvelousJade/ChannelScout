@@ -12,6 +12,8 @@ Use one Python container/one worker and one PostgreSQL instance. Deployment requ
 
 Switching back to local polling: stop the deployed instance first, set MODE=polling locally and start one process; it deletes the webhook without discarding pending updates. Do not run both. Shutdown cancels workers; transactions roll back if not committed. Outbox intents already committed survive restart.
 
+Repair upgrade: migrations 004 and 005 retain exercise history and restore identities within the migration batch's single transaction. Existing damaged learning databases are deduplicated by migration 005, archiving every removed row in `ingestion_repair_archive`; ambiguous equal-version survivors use a documented lexical rule, not inferred source truth. Back up first, inspect the archive under the same data-access controls as posts, and review `docs/debugging/repairs.md`. An orphaned reply intent prevents FK restoration and rolls the repair back; do not discard pending replies to silence that failure. Readiness now requires migration 005.
+
 Readiness checks DB/schema, not Telegram reachability or delivery backlog. No HA, production load evidence, auto-migration rollback or deletion reconciliation. Schema migrations are additive in this baseline; take backups before future destructive changes.
 
 Manual acceptance (still unverified): HTTPS certificate, webhook registration and secret delivery from Telegram, membership permissions, live post/edit ingestion, live outbound formatting/buttons, bot rate-limit behavior, hosting restart recovery and backup restoration.

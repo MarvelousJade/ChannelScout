@@ -1,0 +1,41 @@
+{
+  "baseline": "800fcba",
+  "data_preserved": true,
+  "before": {
+    "posts": {
+      "count": 10000,
+      "hash": "190498aceb4d4b243470e2bc3649c554"
+    },
+    "processed_updates": {
+      "count": 1,
+      "hash": "f437b0479f56cb17e1c3858890fced65"
+    },
+    "outbox": {
+      "count": 1,
+      "hash": "f694ba9fdb9058b8f3900f3523036c75"
+    },
+    "search_sessions": {
+      "count": 1,
+      "hash": "63a76a630dd75ca7593646cdd427d8d7"
+    }
+  },
+  "after": {
+    "posts": {
+      "count": 10000,
+      "hash": "190498aceb4d4b243470e2bc3649c554"
+    },
+    "processed_updates": {
+      "count": 1,
+      "hash": "f437b0479f56cb17e1c3858890fced65"
+    },
+    "outbox": {
+      "count": 1,
+      "hash": "f694ba9fdb9058b8f3900f3523036c75"
+    },
+    "search_sessions": {
+      "count": 1,
+      "hash": "63a76a630dd75ca7593646cdd427d8d7"
+    }
+  },
+  "archived_rows": 0
+}

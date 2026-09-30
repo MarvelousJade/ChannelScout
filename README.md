@@ -103,6 +103,7 @@ Checked current [PTB v22.8 documentation](https://docs.python-telegram-bot.org/e
 - [Engineering decisions](docs/engineering-decisions.md): alternatives, evidence, limits.
 - [Deployment](docs/deployment.md), [demo script](docs/demo.md).
 - [Interview guide](docs/interview-guide.md): trace the code rather than memorize claims.
-- [Debugging exercises](docs/debugging/README.md): separate faulty checkpoints, no learner solutions revealed.
+- [Debugging exercises](docs/debugging/README.md): original faulty checkpoints remain available.
+- [Autonomous repair report](docs/debugging/repairs.md): authorized solutions, regression evidence, individual fix commits and non-squashed local merge (spoilers).
 
-**Status:** local PostgreSQL tests and fake-Telegram integration verified; real Telegram, Docker image execution, hosted webhooks and GitHub-hosted CI are not yet verified. See verification for exact commands and results.
+**Status:** 48 tests pass on the repaired merged tree, including forward schema recovery and preserved main-only checks; local PostgreSQL and fake-Telegram integration verified; real Telegram, Docker image execution, hosted webhooks and GitHub-hosted CI are not yet verified. See verification for exact commands and results.

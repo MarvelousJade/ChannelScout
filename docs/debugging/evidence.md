@@ -1,5 +1,7 @@
 # Exercise provenance and regression evidence
 
+This records the original exercise-creation phase. A later user-authorized autonomous repair session reproduced all three defects, added failing regressions, made separate fixes and merged them locally without squashing. See [repair report](repairs.md) for those later results; the faulty checkpoints below are intentionally unchanged.
+
 Agent-created practice defects, not production incidents or learner discoveries. Learner investigation/repair has not happened. Solutions/hints are isolated on an instructor branch and are not included in these instructions.
 
 ## Checkpoints
@@ -31,4 +33,4 @@ A's test schedules overlapping reads to reliably reproduce concurrent behavior; 
 
 After switching back to baseline and the separate baseline database, the final suite passed **31 tests**, including these three regressions and a concurrent-newer-edits convergence check. Additional real validation-redaction regression passed after its separate fix; it is not counted as an invented learning defect.
 
-Eventual learner fixes remain pending. A passing baseline is evidence of the intended design, not evidence that the learner repaired a faulty checkpoint or that a repair migration was implemented.
+Learner-performed investigation remains pending. The later agent session did implement and verify an additive recovery migration; that evidence is in `repairs.md`, not attributed retroactively to the original baseline or to the learner. Original baseline success did not itself demonstrate repair of a damaged schema.

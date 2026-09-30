@@ -1,5 +1,7 @@
 # Debugging practice — learner instructions (no solutions)
 
+**Later authorized repair:** the user requested autonomous agent repairs on `shaoyu/rework` and a non-squashed local merge into main. See [repair report](repairs.md) for the actual debugging and solutions (spoilers). Original faulty branches/tags remain unchanged for practice. These repairs are agent work, not the learner's independent discoveries.
+
 These are deliberately introduced implementation defects, **not production incidents** or discoveries you have made. Baseline branch `codex/channelscout` must stay passing. The learning branch has sequential faulty checkpoints (`exercise-a`, `exercise-b`, `exercise-c` tags). Later checkpoints retain earlier defects; run the targeted regression for each exercise. Instructor diagnoses/hints are kept on a separate branch and should be requested only when you want them.
 
 Use a dedicated disposable `scout_learning` PostgreSQL database. Faulty migrations change constraints; **never** use the baseline/live DB. The tests truncate app tables. Use a separate local venv or the baseline venv with the checkout's source; don't run a previously built container image and assume it contains your current checkout.

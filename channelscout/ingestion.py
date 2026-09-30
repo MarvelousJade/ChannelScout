@@ -23,8 +23,8 @@ class Ingestor:
         async with self.db.pool.connection() as conn:
             async with conn.transaction():
                 cur = await conn.execute(
-                    """INSERT INTO processed_updates (update_id)
-                    VALUES (%s) ON CONFLICT DO NOTHING RETURNING update_id""",
+                    """INSERT INTO processed_updates(update_id) VALUES (%s)
+                    ON CONFLICT DO NOTHING RETURNING update_id""",
                     (update.update_id,),
                 )
                 if not await cur.fetchone():
