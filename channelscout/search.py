@@ -59,5 +59,4 @@ async def search(conn, request, normalization=2):
 def page(results, index):
     if index < 0 or index * PAGE_SIZE >= len(results):
         raise ValueError("Invalid page.")
-    start = index * (PAGE_SIZE - 1)
-    return results[start : start + PAGE_SIZE]
+    return results[index * PAGE_SIZE : (index + 1) * PAGE_SIZE]

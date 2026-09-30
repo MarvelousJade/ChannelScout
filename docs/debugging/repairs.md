@@ -56,6 +56,24 @@ Actual pre-fix result: **3 failed, 1 passed in 9.35s**. The passing case already
 
 **Two-minute interview walkthrough (agent work):** Problem: corrected text reverted. Hypothesis: arrival order was being used as version order. Evidence: delayed older events, equal-second lower IDs and concurrent old arrivals all replaced the seeded winner. Decision: make the version decision part of the row mutation under the database's lock. Fix: strict source-time/update-ID predicate on UPSERT. Verification: stale versions no longer modify content, later timestamps still win even with a lower ID, and receipt/rollback behavior remains intact.
 
-## C — pending autonomous repair
+## C — overlapping snapshot pages
+
+**Symptoms/reproduction:** existing tied-result regression still displayed 15 entries with only 13 distinct identities. New parameterized tail tests failed for 6, 10, 11, 12, 15 and 100 results; with 100 results the final page returned IDs 76–80 instead of 95–99. Single-page and invalid-next-page checks passed, showing that basic validation alone did not detect the boundary error.
+
+```sh
+pytest tests/test_exercises.py::test_exercise_c_page_boundaries tests/test_rework_pagination.py -q
+```
+
+Actual pre-fix result: **7 failed, 5 passed in 16.01s**, including the original tied-result regression. These are synthetic snapshot IDs, not live Telegram messages.
+
+**Hypothesis/root cause:** page headings/buttons/validation used five-item strides, but the slice started at `index * (PAGE_SIZE - 1)`. Page 1 began at item 4 rather than 5, causing overlaps and eventually omitting the true tail. This was not attributed to SQL tie instability; the original missing-tie-breaker experiment had not visibly reproduced that scenario.
+
+**Fix:** slice `[index * PAGE_SIZE : (index + 1) * PAGE_SIZE]`. Preserve the existing negative/out-of-range rejection, unique SQL tie-breakers, owner-bound one-hour snapshots, next/previous controls and top-100 cap. No cursor/keyset infrastructure is needed for a bounded immutable snapshot.
+
+**Tradeoffs:** snapshots still intentionally retain old snippets after edits until expiry/new search. This gives stable boundaries but not live freshness. The regression verifies full/tail pages and complete snapshot coverage, not merely disjoint adjacent pages or headings.
+
+**Verification:** full rework suite **46 passed in 24.41s**, one existing Starlette TestClient deprecation warning. Lint and formatting passed. This includes all three original exercises, all new repair tests, command previous/next round-trip, owner/expiry checks, failure recovery, webhook authentication and real PTB serialization against a fake API. Extra tests/config improvements already on main will be preserved and rerun after the merge.
+
+**Two-minute interview walkthrough (agent work):** Problem: repeated results and missing tail items. Hypothesis: page math was inconsistent with headings. Evidence: boundary tests at 6/10/11/12/15/100 items exposed the wrong start offset; tied-result integration confirmed duplication. Decision: retain the simple immutable snapshot and make its stride consistent. Fix: a page-size start and exclusive end. Verification: exact tail and complete-coverage assertions, navigation tests and the 46-test suite.
 
 ## Final merge/checks — pending
