@@ -2,15 +2,14 @@
 
 Indexes posts from approved public Telegram channels and searches them through a bot. A compact Python/FastAPI portfolio project: **one service, one PostgreSQL database**. No frontend, LLM, broker or user-account scraping.
 
-```text
-Telegram post/edit ── polling OR authenticated HTTPS webhook ──┐
-Telegram /search ──────────────────────────────────────────────┤
-                                                             v
-                         Ingestor → DB transaction → posts / snapshot / outbox
-                                      ^                         |
-                              PostgreSQL FTS + GIN              v
-                                                   background reply → Telegram
-```
+## How it works
+
+1. **Receive updates:** The Python service listens through Telegram polling or an authenticated HTTPS webhook—never both at once.
+2. **Index posts:** Approved channel posts and edits are stored in PostgreSQL. Duplicate updates and older revisions cannot replace newer content.
+3. **Search:** `/search` uses PostgreSQL full-text search and a GIN index to find and rank posts. Results are saved as a short-lived snapshot for stable pagination.
+4. **Reply:** A background task delivers queued Telegram replies with snippets, dates, original links and Next/Previous buttons.
+
+Update processing and reply intents commit together in a database transaction; Telegram delivery happens afterward.
 
 ## Local setup
 
