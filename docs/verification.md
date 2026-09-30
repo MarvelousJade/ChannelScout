@@ -24,15 +24,15 @@ DATABASE_URL=postgresql://nobody@127.0.0.1:55432/scout_test python -m scripts.pa
 
 ## Functional checks
 
-Latest baseline run: **29 tests passed**, lint and formatting checks passed. No Telegram credentials. Tests use actual PostgreSQL, fake Telegram responses and actual PTB request serialization. Fixtures truncate app tables and must never run on a live DB.
+Latest baseline run: **31 tests passed**, lint and formatting checks passed. No Telegram credentials. Tests use actual PostgreSQL, fake Telegram responses and actual PTB request serialization. Fixtures truncate app tables and must never run on a live DB.
 
-Covered: migrations/seed repeatability; concurrent duplicate receipt claims; allowlist; post text removal; newer edits, delayed originals/edits and same-second ties; processing rollback/retry; relevance, stable ordering, date filters; snapshots, ownership/expiry/previous-next; invalid/no-results input; secret redaction; webhook header/body/replay and 503 recovery; search timeout response; rate-limit deadlines, permanent errors, five-attempt exhaustion; polling offset commit boundary. Exercise regressions pass on baseline.
+Covered: migrations/seed repeatability; concurrent duplicate receipt claims and concurrent edit convergence; allowlist; post text removal; newer edits, delayed originals/edits and same-second ties; processing rollback/retry; relevance, stable ordering, date filters; snapshots, ownership/expiry/previous-next; invalid/no-results input; secret redaction; webhook header/body/replay and 503 recovery; search timeout response; rate-limit deadlines, permanent errors, five-attempt exhaustion; polling offset commit boundary. Exercise regressions pass on baseline.
 
 A 20-way duplicate delivery produced one successful receipt and one stored post. Delayed events preserved corrected content; a later edit replaced it. Failure after post mutation rolled back both receipt and post, then retry succeeded. These outcomes are asserted, not inferred from log text.
 
 The initial service HTTP smoke used only a 2-second wait and failed to connect. Commit `a1d3881` incorrectly described that smoke as verified. A subsequent bounded startup-wait run returned `{"status":"alive"}` twice. This correction is preserved rather than rewriting history. Final database-backed HTTP smoke used a bounded startup wait and returned `{"status":"alive"}` and `{"status":"ready"}`.
 
-Final code inspection found that Pydantic model-level configuration errors could include the original input token despite SecretStr repr redaction. A regression using a synthetic canary token was run and failed. Enabling `hide_input_in_errors` removed it from the exception text; the regression was rerun before committing. This was an agent-discovered local issue, not a learner or production incident. The structured log filter remains an additional safeguard.
+Final code inspection found that Pydantic model-level configuration errors could include the original input token despite SecretStr repr redaction. A regression using a synthetic canary token was run and failed. Enabling `hide_input_in_errors` removed it from the exception text; the regression was rerun before committing. Commit `f2eeb10` incorrectly says five service tests; the actual run was **four passed**. This was an agent-discovered local issue, not a learner or production incident. The structured log filter remains an additional safeguard.
 
 Warnings: installed Starlette warns that its httpx TestClient support is deprecated. It still runs successfully; migration to its new client is future maintenance. PTB retry_after deprecation is avoided with PTB_TIMEDELTA=1; implementation accepts both int and timedelta.
 
@@ -62,8 +62,10 @@ Measured serial DB-client execution+fetch of the same production SQL (rank/sort/
 | First, index absent | 4.273 | 5.324 | Seq Scan |
 | Maintained GIN | 3.040 | 3.801 | Bitmap Index Scan + Bitmap Heap Scan |
 | Index absent | 4.545 | 5.954 | Seq Scan |
+| Final rerun, maintained GIN | 3.112 | 4.409 | Bitmap Index Scan + Bitmap Heap Scan |
+| Final rerun, index absent | 4.388 | 5.514 | Seq Scan |
 
-The first experiment showed no index improvement. Bulk-loaded GIN pending entries were then cleared explicitly with `gin_clean_pending_list` and statistics refreshed with ANALYZE. The planner—not forced scan settings—selected GIN afterward. The absent-index condition really drops the index inside a rolled-back transaction. It restores the schema automatically. Both raw reports contain full `EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)` and software versions. Maintenance is part of the second experiment, not hidden. Do not extrapolate these timings to production or Telegram end-to-end response time.
+The first experiment showed no index improvement. Bulk-loaded GIN pending entries were then cleared explicitly with `gin_clean_pending_list` and statistics refreshed with ANALYZE. The planner—not forced scan settings—selected GIN afterward. The absent-index condition really drops the index inside a rolled-back transaction. It restores the schema automatically. The first, maintained and final raw reports (`benchmark-first.json`, `benchmark.json`, `benchmark-final.json`) contain full `EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)` and software versions. Maintenance is part of the maintained/final experiments, not hidden. An intermediate rerun before adding logical CPU metadata reported indexed 3.856/5.528 ms and absent-index 6.884/10.796 ms (p50/p95); its console output was observed but raw report overwritten by the final rerun. Variation reinforces that these are local samples, not SLA estimates. Do not extrapolate these timings to production or Telegram end-to-end response time.
 
 ## Pagination experiment
 
@@ -75,4 +77,4 @@ No real bot token/channel/hosting authorization: live Telegram commands, permiss
 
 ## Final checks
 
-Baseline: 29 tests passed, one Starlette deprecation warning; lint/format, deterministic seed CLI, real HTTP health/readiness, Compose configuration and diff whitespace checks passed. Exercise checkpoints and the final post-exercise baseline rerun remain to be recorded in `debugging/evidence.md`.
+After exercises, switched to `codex/channelscout` and the separate pristine baseline test DB. **31 passed in 16.54s**, one Starlette deprecation warning. Lint/format, editable package installation, compileall, migration/seed CLI, benchmark rerun, real HTTP health/readiness, disabled webhook HTTP 404, Compose configuration and diff whitespace checks passed. The final benchmark preserved P@5 0.933 and records 12 logical CPUs reported by this environment (shared virtualized machine, not dedicated benchmark hardware). See `debugging/evidence.md` for exact faulty checkpoint hashes and real failing assertions; instructor notes live separately. No push/history rewrite was performed. Eventual learner fixes, live Telegram, Docker runtime, hosted CI and deployment remain unverified.

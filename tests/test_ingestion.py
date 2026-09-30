@@ -48,6 +48,19 @@ async def test_edits_and_older_event_policy(db):
     assert (await stored(db))[0]["body"] == "same second tie"
 
 
+async def test_concurrent_edits_converge_on_newest(db):
+    worker = Ingestor(db, {-100123})
+    await asyncio.gather(
+        *(
+            worker.process(post(i, f"version {i}", edit=1700000000 + i))
+            for i in reversed(range(1, 21))
+        )
+    )
+    row = (await stored(db))[0]
+    assert row["body"] == "version 20"
+    assert row["event_update_id"] == 20
+
+
 async def test_allowlist_and_text_removal(db):
     worker = Ingestor(db, {-100123})
     await worker.process(post(chat=-100444))

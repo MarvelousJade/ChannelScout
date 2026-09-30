@@ -5,6 +5,7 @@ import asyncio
 import hashlib
 import json
 import platform
+import os
 import statistics
 import time
 from pathlib import Path
@@ -36,6 +37,7 @@ async def main(output):
             "environment": {
                 "platform": platform.platform(),
                 "python": platform.python_version(),
+                "logical_cpus": os.cpu_count(),
                 "packages": {p: version(p) for p in ["psycopg", "fastapi", "python-telegram-bot"]},
                 "label_sha256": hashlib.sha256(label_bytes).hexdigest(),
                 "posts": 10000,
