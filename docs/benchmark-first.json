@@ -1,0 +1,1272 @@
+{
+  "environment": {
+    "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.44",
+    "python": "3.14.7",
+    "packages": {
+      "psycopg": "3.3.6",
+      "fastapi": "0.142.2",
+      "python-telegram-bot": "22.8"
+    },
+    "label_sha256": "bc569c22414064939b28fa1e08ec67ec9c064434018b833a7aec6e9f948d16fb",
+    "posts": 10000,
+    "measurement": "Local synthetic, serial, warmed; client round-trip + fetch, no Telegram or pool wait.",
+    "postgres": "PostgreSQL 18.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 16.2.1 20260810, 64-bit"
+  },
+  "quality": {
+    "0": {
+      "mean_precision_at_5": 0.0,
+      "queries": [
+        {
+          "query": "python async",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            511,
+            1141,
+            1771,
+            2401,
+            3031
+          ]
+        },
+        {
+          "query": "postgres indexes",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            602,
+            1232,
+            1862,
+            2492,
+            3122
+          ]
+        },
+        {
+          "query": "docker compose",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            63,
+            693,
+            1323,
+            1953,
+            2583
+          ]
+        },
+        {
+          "query": "fastapi tests",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            154,
+            784,
+            1414,
+            2044,
+            2674
+          ]
+        },
+        {
+          "query": "telegram bots",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            245,
+            875,
+            1505,
+            2135,
+            2765
+          ]
+        },
+        {
+          "query": "git branches",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            336,
+            966,
+            1596,
+            2226,
+            2856
+          ]
+        },
+        {
+          "query": "linux shells",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            427,
+            1057,
+            1687,
+            2317,
+            2947
+          ]
+        },
+        {
+          "query": "redis caching",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            518,
+            1148,
+            1778,
+            2408,
+            3038
+          ]
+        },
+        {
+          "query": "javascript promises",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            609,
+            1239,
+            1869,
+            2499,
+            3129
+          ]
+        },
+        {
+          "query": "typescript types",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            70,
+            700,
+            1330,
+            1960,
+            2590
+          ]
+        },
+        {
+          "query": "rust ownership",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            161,
+            791,
+            1421,
+            2051,
+            2681
+          ]
+        },
+        {
+          "query": "java thread",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            252,
+            882,
+            1512,
+            2142,
+            2772
+          ]
+        },
+        {
+          "query": "csharp linq",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            343,
+            973,
+            1603,
+            2233,
+            2863
+          ]
+        },
+        {
+          "query": "golang channel",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            434,
+            1064,
+            1694,
+            2324,
+            2954
+          ]
+        },
+        {
+          "query": "kubernetes pod",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            525,
+            1155,
+            1785,
+            2415,
+            3045
+          ]
+        },
+        {
+          "query": "http cache",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            616,
+            1246,
+            1876,
+            2506,
+            3136
+          ]
+        },
+        {
+          "query": "oauth secure",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            77,
+            707,
+            1337,
+            1967,
+            2597
+          ]
+        },
+        {
+          "query": "pytest fixture",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            168,
+            798,
+            1428,
+            2058,
+            2688
+          ]
+        },
+        {
+          "query": "sql joins",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            259,
+            889,
+            1519,
+            2149,
+            2779
+          ]
+        },
+        {
+          "query": "react hook",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            350,
+            980,
+            1610,
+            2240,
+            2870
+          ]
+        },
+        {
+          "query": "node stream",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            441,
+            1071,
+            1701,
+            2331,
+            2961
+          ]
+        },
+        {
+          "query": "graphql schemas",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            532,
+            1162,
+            1792,
+            2422,
+            3052
+          ]
+        },
+        {
+          "query": "ci deployment",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            623,
+            1253,
+            1883,
+            2513,
+            3143
+          ]
+        },
+        {
+          "query": "regex parser",
+          "precision_at_5": 0.0,
+          "top_ids": []
+        },
+        {
+          "query": "data structure",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            175,
+            805,
+            1435,
+            2065,
+            2695
+          ]
+        },
+        {
+          "query": "binary searching",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            266,
+            896,
+            1526,
+            2156,
+            2786
+          ]
+        },
+        {
+          "query": "network socket",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            357,
+            987,
+            1617,
+            2247,
+            2877
+          ]
+        },
+        {
+          "query": "database transaction",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            448,
+            1078,
+            1708,
+            2338,
+            2968
+          ]
+        },
+        {
+          "query": "log metric",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            539,
+            1169,
+            1799,
+            2429,
+            3059
+          ]
+        },
+        {
+          "query": "api page",
+          "precision_at_5": 0.0,
+          "top_ids": []
+        }
+      ]
+    },
+    "2": {
+      "mean_precision_at_5": 0.9333333333333333,
+      "queries": [
+        {
+          "query": "python async",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            61,
+            151,
+            241,
+            331,
+            421
+          ]
+        },
+        {
+          "query": "postgres indexes",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            62,
+            152,
+            242,
+            332,
+            422
+          ]
+        },
+        {
+          "query": "docker compose",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            153,
+            243,
+            333,
+            423,
+            513
+          ]
+        },
+        {
+          "query": "fastapi tests",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            64,
+            244,
+            334,
+            424,
+            514
+          ]
+        },
+        {
+          "query": "telegram bots",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            65,
+            155,
+            335,
+            425,
+            515
+          ]
+        },
+        {
+          "query": "git branches",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            66,
+            156,
+            246,
+            426,
+            516
+          ]
+        },
+        {
+          "query": "linux shells",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            67,
+            157,
+            247,
+            337,
+            517
+          ]
+        },
+        {
+          "query": "redis caching",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            68,
+            158,
+            248,
+            338,
+            428
+          ]
+        },
+        {
+          "query": "javascript promises",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            69,
+            159,
+            249,
+            339,
+            429
+          ]
+        },
+        {
+          "query": "typescript types",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            160,
+            250,
+            340,
+            430,
+            520
+          ]
+        },
+        {
+          "query": "rust ownership",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            71,
+            251,
+            341,
+            431,
+            521
+          ]
+        },
+        {
+          "query": "java thread",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            72,
+            162,
+            342,
+            432,
+            522
+          ]
+        },
+        {
+          "query": "csharp linq",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            73,
+            163,
+            253,
+            433,
+            523
+          ]
+        },
+        {
+          "query": "golang channel",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            74,
+            164,
+            254,
+            344,
+            524
+          ]
+        },
+        {
+          "query": "kubernetes pod",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            75,
+            165,
+            255,
+            345,
+            435
+          ]
+        },
+        {
+          "query": "http cache",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            76,
+            166,
+            256,
+            346,
+            436
+          ]
+        },
+        {
+          "query": "oauth secure",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            167,
+            257,
+            347,
+            437,
+            527
+          ]
+        },
+        {
+          "query": "pytest fixture",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            78,
+            258,
+            348,
+            438,
+            528
+          ]
+        },
+        {
+          "query": "sql joins",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            79,
+            169,
+            349,
+            439,
+            529
+          ]
+        },
+        {
+          "query": "react hook",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            80,
+            170,
+            260,
+            440,
+            530
+          ]
+        },
+        {
+          "query": "node stream",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            81,
+            171,
+            261,
+            351,
+            531
+          ]
+        },
+        {
+          "query": "graphql schemas",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            82,
+            172,
+            262,
+            352,
+            442
+          ]
+        },
+        {
+          "query": "ci deployment",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            83,
+            173,
+            263,
+            353,
+            443
+          ]
+        },
+        {
+          "query": "regex parser",
+          "precision_at_5": 0.0,
+          "top_ids": []
+        },
+        {
+          "query": "data structure",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            85,
+            265,
+            355,
+            445,
+            535
+          ]
+        },
+        {
+          "query": "binary searching",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            86,
+            176,
+            356,
+            446,
+            536
+          ]
+        },
+        {
+          "query": "network socket",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            87,
+            177,
+            267,
+            447,
+            537
+          ]
+        },
+        {
+          "query": "database transaction",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            88,
+            178,
+            268,
+            358,
+            538
+          ]
+        },
+        {
+          "query": "log metric",
+          "precision_at_5": 1.0,
+          "top_ids": [
+            89,
+            179,
+            269,
+            359,
+            449
+          ]
+        },
+        {
+          "query": "api page",
+          "precision_at_5": 0.0,
+          "top_ids": []
+        }
+      ]
+    },
+    "32": {
+      "mean_precision_at_5": 0.0,
+      "queries": [
+        {
+          "query": "python async",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            511,
+            1141,
+            1771,
+            2401,
+            3031
+          ]
+        },
+        {
+          "query": "postgres indexes",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            602,
+            1232,
+            1862,
+            2492,
+            3122
+          ]
+        },
+        {
+          "query": "docker compose",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            63,
+            693,
+            1323,
+            1953,
+            2583
+          ]
+        },
+        {
+          "query": "fastapi tests",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            154,
+            784,
+            1414,
+            2044,
+            2674
+          ]
+        },
+        {
+          "query": "telegram bots",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            245,
+            875,
+            1505,
+            2135,
+            2765
+          ]
+        },
+        {
+          "query": "git branches",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            336,
+            966,
+            1596,
+            2226,
+            2856
+          ]
+        },
+        {
+          "query": "linux shells",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            427,
+            1057,
+            1687,
+            2317,
+            2947
+          ]
+        },
+        {
+          "query": "redis caching",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            518,
+            1148,
+            1778,
+            2408,
+            3038
+          ]
+        },
+        {
+          "query": "javascript promises",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            609,
+            1239,
+            1869,
+            2499,
+            3129
+          ]
+        },
+        {
+          "query": "typescript types",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            70,
+            700,
+            1330,
+            1960,
+            2590
+          ]
+        },
+        {
+          "query": "rust ownership",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            161,
+            791,
+            1421,
+            2051,
+            2681
+          ]
+        },
+        {
+          "query": "java thread",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            252,
+            882,
+            1512,
+            2142,
+            2772
+          ]
+        },
+        {
+          "query": "csharp linq",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            343,
+            973,
+            1603,
+            2233,
+            2863
+          ]
+        },
+        {
+          "query": "golang channel",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            434,
+            1064,
+            1694,
+            2324,
+            2954
+          ]
+        },
+        {
+          "query": "kubernetes pod",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            525,
+            1155,
+            1785,
+            2415,
+            3045
+          ]
+        },
+        {
+          "query": "http cache",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            616,
+            1246,
+            1876,
+            2506,
+            3136
+          ]
+        },
+        {
+          "query": "oauth secure",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            77,
+            707,
+            1337,
+            1967,
+            2597
+          ]
+        },
+        {
+          "query": "pytest fixture",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            168,
+            798,
+            1428,
+            2058,
+            2688
+          ]
+        },
+        {
+          "query": "sql joins",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            259,
+            889,
+            1519,
+            2149,
+            2779
+          ]
+        },
+        {
+          "query": "react hook",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            350,
+            980,
+            1610,
+            2240,
+            2870
+          ]
+        },
+        {
+          "query": "node stream",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            441,
+            1071,
+            1701,
+            2331,
+            2961
+          ]
+        },
+        {
+          "query": "graphql schemas",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            532,
+            1162,
+            1792,
+            2422,
+            3052
+          ]
+        },
+        {
+          "query": "ci deployment",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            623,
+            1253,
+            1883,
+            2513,
+            3143
+          ]
+        },
+        {
+          "query": "regex parser",
+          "precision_at_5": 0.0,
+          "top_ids": []
+        },
+        {
+          "query": "data structure",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            175,
+            805,
+            1435,
+            2065,
+            2695
+          ]
+        },
+        {
+          "query": "binary searching",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            266,
+            896,
+            1526,
+            2156,
+            2786
+          ]
+        },
+        {
+          "query": "network socket",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            357,
+            987,
+            1617,
+            2247,
+            2877
+          ]
+        },
+        {
+          "query": "database transaction",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            448,
+            1078,
+            1708,
+            2338,
+            2968
+          ]
+        },
+        {
+          "query": "log metric",
+          "precision_at_5": 0.0,
+          "top_ids": [
+            539,
+            1169,
+            1799,
+            2429,
+            3059
+          ]
+        },
+        {
+          "query": "api page",
+          "precision_at_5": 0.0,
+          "top_ids": []
+        }
+      ]
+    }
+  },
+  "plans_and_latency": {
+    "indexed": {
+      "n": 300,
+      "p50_ms": 4.403117500032749,
+      "p95_ms": 5.724913999983983,
+      "representative_plan": [
+        {
+          "Plan": {
+            "Node Type": "Limit",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 745.22,
+            "Total Cost": 748.13,
+            "Plan Rows": 11,
+            "Plan Width": 109,
+            "Actual Startup Time": 2.759,
+            "Actual Total Time": 3.747,
+            "Actual Rows": 100.0,
+            "Actual Loops": 1,
+            "Disabled": false,
+            "Shared Hit Blocks": 620,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "Plans": [
+              {
+                "Node Type": "Result",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 745.22,
+                "Total Cost": 748.13,
+                "Plan Rows": 11,
+                "Plan Width": 109,
+                "Actual Startup Time": 2.758,
+                "Actual Total Time": 3.738,
+                "Actual Rows": 100.0,
+                "Actual Loops": 1,
+                "Disabled": false,
+                "Shared Hit Blocks": 620,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Sort",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Startup Cost": 745.22,
+                    "Total Cost": 745.25,
+                    "Plan Rows": 11,
+                    "Plan Width": 287,
+                    "Actual Startup Time": 2.72,
+                    "Actual Total Time": 2.727,
+                    "Actual Rows": 100.0,
+                    "Actual Loops": 1,
+                    "Disabled": false,
+                    "Sort Key": [
+                      "(ts_rank_cd(posts.document, '''python'' & ''async'''::tsquery, 2)) DESC",
+                      "posts.posted_at DESC",
+                      "posts.chat_id",
+                      "posts.message_id"
+                    ],
+                    "Sort Method": "top-N heapsort",
+                    "Sort Space Used": 76,
+                    "Sort Space Type": "Memory",
+                    "Shared Hit Blocks": 620,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "Plans": [
+                      {
+                        "Node Type": "Seq Scan",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Relation Name": "posts",
+                        "Alias": "posts",
+                        "Startup Cost": 0.0,
+                        "Total Cost": 745.03,
+                        "Plan Rows": 11,
+                        "Plan Width": 287,
+                        "Actual Startup Time": 0.013,
+                        "Actual Total Time": 2.521,
+                        "Actual Rows": 334.0,
+                        "Actual Loops": 1,
+                        "Disabled": false,
+                        "Filter": "(document @@ '''python'' & ''async'''::tsquery)",
+                        "Rows Removed by Filter": 9666,
+                        "Shared Hit Blocks": 620,
+                        "Shared Read Blocks": 0,
+                        "Shared Dirtied Blocks": 0,
+                        "Shared Written Blocks": 0,
+                        "Local Hit Blocks": 0,
+                        "Local Read Blocks": 0,
+                        "Local Dirtied Blocks": 0,
+                        "Local Written Blocks": 0,
+                        "Temp Read Blocks": 0,
+                        "Temp Written Blocks": 0
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 1,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.082,
+          "Triggers": [],
+          "Execution Time": 3.768
+        }
+      ]
+    },
+    "unindexed": {
+      "n": 300,
+      "p50_ms": 4.272660999959044,
+      "p95_ms": 5.323817999851599,
+      "representative_plan": [
+        {
+          "Plan": {
+            "Node Type": "Limit",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 745.22,
+            "Total Cost": 748.13,
+            "Plan Rows": 11,
+            "Plan Width": 109,
+            "Actual Startup Time": 2.494,
+            "Actual Total Time": 3.351,
+            "Actual Rows": 100.0,
+            "Actual Loops": 1,
+            "Disabled": false,
+            "Shared Hit Blocks": 620,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "Plans": [
+              {
+                "Node Type": "Result",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 745.22,
+                "Total Cost": 748.13,
+                "Plan Rows": 11,
+                "Plan Width": 109,
+                "Actual Startup Time": 2.493,
+                "Actual Total Time": 3.344,
+                "Actual Rows": 100.0,
+                "Actual Loops": 1,
+                "Disabled": false,
+                "Shared Hit Blocks": 620,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Sort",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Startup Cost": 745.22,
+                    "Total Cost": 745.25,
+                    "Plan Rows": 11,
+                    "Plan Width": 287,
+                    "Actual Startup Time": 2.467,
+                    "Actual Total Time": 2.471,
+                    "Actual Rows": 100.0,
+                    "Actual Loops": 1,
+                    "Disabled": false,
+                    "Sort Key": [
+                      "(ts_rank_cd(posts.document, '''python'' & ''async'''::tsquery, 2)) DESC",
+                      "posts.posted_at DESC",
+                      "posts.chat_id",
+                      "posts.message_id"
+                    ],
+                    "Sort Method": "top-N heapsort",
+                    "Sort Space Used": 76,
+                    "Sort Space Type": "Memory",
+                    "Shared Hit Blocks": 620,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "Plans": [
+                      {
+                        "Node Type": "Seq Scan",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Relation Name": "posts",
+                        "Alias": "posts",
+                        "Startup Cost": 0.0,
+                        "Total Cost": 745.03,
+                        "Plan Rows": 11,
+                        "Plan Width": 287,
+                        "Actual Startup Time": 0.014,
+                        "Actual Total Time": 2.243,
+                        "Actual Rows": 334.0,
+                        "Actual Loops": 1,
+                        "Disabled": false,
+                        "Filter": "(document @@ '''python'' & ''async'''::tsquery)",
+                        "Rows Removed by Filter": 9666,
+                        "Shared Hit Blocks": 620,
+                        "Shared Read Blocks": 0,
+                        "Shared Dirtied Blocks": 0,
+                        "Shared Written Blocks": 0,
+                        "Local Hit Blocks": 0,
+                        "Local Read Blocks": 0,
+                        "Local Dirtied Blocks": 0,
+                        "Local Written Blocks": 0,
+                        "Temp Read Blocks": 0,
+                        "Temp Written Blocks": 0
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 8,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.108,
+          "Triggers": [],
+          "Execution Time": 3.364
+        }
+      ]
+    }
+  }
+}

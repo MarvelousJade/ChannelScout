@@ -36,6 +36,8 @@ async def test_rank_date_and_deterministic_ties(db):
     async with db.pool.connection() as conn:
         results = await search(conn, SearchRequest("python async"))
         assert len(results) == 100
+        # Reviewed synthetic labels: mention-only promotions are not resources.
+        assert all(r["message_id"] % 7 != 0 for r in results[:5])
         assert all("python" in x["snippet"] and "async" in x["snippet"] for x in results)
         assert results == await search(conn, SearchRequest("python async"))
         keys = [(-r["rank"], r["posted_at"], r["chat_id"], r["message_id"]) for r in results]

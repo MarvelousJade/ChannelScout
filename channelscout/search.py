@@ -45,7 +45,7 @@ SEARCH_SQL = """WITH q AS (SELECT plainto_tsquery('english', %s) AS query)
 """
 
 
-async def search(conn, request, normalization=32):
+async def search(conn, request, normalization=2):
     cur = await conn.execute(
         SEARCH_SQL, (request.query, normalization, request.since, request.since, RESULT_LIMIT)
     )
