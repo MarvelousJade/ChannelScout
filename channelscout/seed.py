@@ -46,7 +46,7 @@ def rows(count=10000):
         body = f"{topic}: developer resource with tutorial, examples and practical exercises.{repetition}"
         if i % 7 == 0:
             # Mention-only marketing distractors, not useful developer resources.
-            body = (topic + ' ') * 4 + ('newsletter announcement promotion subscribe today ' * 16)
+            body = (topic + " ") * 4 + ("newsletter announcement promotion subscribe today " * 16)
         if edited:
             body += " Revised examples after review."
         yield (

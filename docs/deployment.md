@@ -1,0 +1,17 @@
+# Deployment (instructions, not a completed deployment)
+
+Use one Python container/one worker and one PostgreSQL instance. Deployment requires explicit hosting authorization, a bot token and your controlled public demo channel. None was supplied for this build.
+
+1. Build the Docker image and verify `MODE=off` locally; run tests on a disposable database.
+2. Provision persistent PostgreSQL 18 with backups. Use a non-superuser application role that owns only this app's schema, secure credentials and a private connection (TLS for remote DB). DSNs must URL-encode credentials.
+3. Supply environment secrets through the host secret manager, not Git or Docker build arguments. Set `ALLOWED_CHAT_IDS`, `TELEGRAM_TOKEN`, `MODE=webhook`, a random 32+ character `WEBHOOK_SECRET` using `A-Z a-z 0-9 _ -`, and `WEBHOOK_URL=https://your-host/telegram/webhook`.
+4. Expose port 8000 through the hosting platform's managed HTTPS ingress with a valid certificate on port 443. Set a 1 MiB request-body limit and a webhook request timeout above the bounded DB processing time. This app is not a TLS terminator; no extra proxy container is required when the platform supplies ingress.
+5. Start one instance/one worker. Startup opens the DB, applies migrations under an advisory lock, initializes the bot and registers the secret-authenticated webhook. A configuration/DB/Telegram initialization failure prevents startup; investigate privately, never publish URLs containing tokens.
+6. Check `/health` and `/ready`. Wrong/missing webhook secret must return 403; correct authenticated replay should return 200 only after DB commit. Post/edit in the demo channel, then search in a private bot chat. Inspect failed/pending outbox counts via a private DB connection.
+7. Monitor structured `processing_failed`, `delivery_failed`, `worker_retry` events without recording request bodies/secret headers. Back up data and periodically remove expired sessions and old sent outbox records/receipts. Keep receipt retention long enough for expected replays; deleting receipts allows old command updates to generate another reply.
+
+Switching back to local polling: stop the deployed instance first, set MODE=polling locally and start one process; it deletes the webhook without discarding pending updates. Do not run both. Shutdown cancels workers; transactions roll back if not committed. Outbox intents already committed survive restart.
+
+Readiness checks DB/schema, not Telegram reachability or delivery backlog. No HA, production load evidence, auto-migration rollback or deletion reconciliation. Schema migrations are additive in this baseline; take backups before future destructive changes.
+
+Manual acceptance (still unverified): HTTPS certificate, webhook registration and secret delivery from Telegram, membership permissions, live post/edit ingestion, live outbound formatting/buttons, bot rate-limit behavior, hosting restart recovery and backup restoration.

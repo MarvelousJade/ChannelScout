@@ -15,6 +15,7 @@ from .transport import ALLOWED_UPDATES, decode_update, delivery_loop, poll
 from fastapi.responses import JSONResponse
 
 from .config import Settings
+from .logging_config import configure
 
 log = logging.getLogger("channelscout")
 
@@ -26,6 +27,7 @@ def event(name: str, **fields):
 
 def create_app(settings=None, database=None, bot=None):
     settings = settings or Settings()
+    configure(settings)
     db = database or Database(settings.database_url.get_secret_value())
     ingestor = Ingestor(db, settings.allowlist, Commands())
 

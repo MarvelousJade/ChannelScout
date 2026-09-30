@@ -1,0 +1,30 @@
+name: verify
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: scout
+          POSTGRES_PASSWORD: test_only
+          POSTGRES_DB: scout_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U scout -d scout_test"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+    env:
+      TEST_DATABASE_URL: postgresql://scout:test_only@localhost:5432/scout_test
+      DATABASE_URL: postgresql://scout:test_only@localhost:5432/scout_test
+      MODE: off
+      PTB_TIMEDELTA: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.lock && pip install --no-deps -e .
+      - run: ruff check channelscout tests scripts && ruff format --check channelscout tests scripts
+      - run: pytest -q
+      - run: python -m scripts.benchmark --output /tmp/benchmark.json

@@ -25,6 +25,17 @@ def test_health_and_unavailable_readiness():
         assert client.get("/ready").status_code == 503
 
 
+def test_log_redaction(capsys):
+    import logging
+    from channelscout.logging_config import configure
+
+    configure(Settings(_env_file=None, telegram_token="secret-token"))
+    logging.getLogger("channelscout").info("token=%s", "secret-token")
+    output = capsys.readouterr().err
+    assert "secret-token" not in output
+    assert "[REDACTED]" in output
+
+
 def test_secret_redaction_and_mode_validation():
     s = Settings(_env_file=None, telegram_token="private-token", database_url="private-db")
     assert "private-token" not in repr(s)
