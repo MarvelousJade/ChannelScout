@@ -32,6 +32,8 @@ A 20-way duplicate delivery produced one successful receipt and one stored post.
 
 The initial service HTTP smoke used only a 2-second wait and failed to connect. Commit `a1d3881` incorrectly described that smoke as verified. A subsequent bounded startup-wait run returned `{"status":"alive"}` twice. This correction is preserved rather than rewriting history. Final database-backed HTTP smoke used a bounded startup wait and returned `{"status":"alive"}` and `{"status":"ready"}`.
 
+Final code inspection found that Pydantic model-level configuration errors could include the original input token despite SecretStr repr redaction. A regression using a synthetic canary token was run and failed. Enabling `hide_input_in_errors` removed it from the exception text; the regression was rerun before committing. This was an agent-discovered local issue, not a learner or production incident. The structured log filter remains an additional safeguard.
+
 Warnings: installed Starlette warns that its httpx TestClient support is deprecated. It still runs successfully; migration to its new client is future maintenance. PTB retry_after deprecation is avoided with PTB_TIMEDELTA=1; implementation accepts both int and timedelta.
 
 ## Dataset and labels

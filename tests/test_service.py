@@ -36,6 +36,12 @@ def test_log_redaction(capsys):
     assert "[REDACTED]" in output
 
 
+def test_invalid_config_does_not_expose_secret():
+    with pytest.raises(ValidationError) as error:
+        Settings(_env_file=None, telegram_token="canary", mode="webhook")
+    assert "canary" not in str(error.value)
+
+
 def test_secret_redaction_and_mode_validation():
     s = Settings(_env_file=None, telegram_token="private-token", database_url="private-db")
     assert "private-token" not in repr(s)
