@@ -8,8 +8,7 @@ INSERT_POST = """INSERT INTO posts
     (chat_id,message_id,channel_name,username,posted_at,body,event_at,event_update_id)
     VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"""
 UPDATE_POST = """UPDATE posts SET channel_name=%s, username=%s, body=%s,
-    event_at=%s, event_update_id=%s WHERE chat_id=%s AND message_id=%s
-    AND (%s, %s) > (event_at, event_update_id)"""
+    event_at=%s, event_update_id=%s WHERE chat_id=%s AND message_id=%s"""
 
 
 async def store_post(conn, values):
@@ -25,8 +24,6 @@ async def store_post(conn, values):
                 values[7],
                 values[0],
                 values[1],
-                values[6],
-                values[7],
             ),
         )
     else:
