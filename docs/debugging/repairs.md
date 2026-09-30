@@ -76,4 +76,34 @@ Actual pre-fix result: **7 failed, 5 passed in 16.01s**, including the original 
 
 **Two-minute interview walkthrough (agent work):** Problem: repeated results and missing tail items. Hypothesis: page math was inconsistent with headings. Evidence: boundary tests at 6/10/11/12/15/100 items exposed the wrong start offset; tied-result integration confirmed duplication. Decision: retain the simple immutable snapshot and make its stride consistent. Fix: a page-size start and exclusive end. Verification: exact tail and complete-coverage assertions, navigation tests and the 46-test suite.
 
+## Commit map and pre-merge verification
+
+| Bug | Focused fix commit |
+|---|---|
+| A — duplicate ingestion + forward schema recovery | `3019afc` |
+| B — stale event protection | `1150727` |
+| C — snapshot page boundaries | `7f96c54` |
+
+Pre-merge rework tests: 46 passed (one existing Starlette deprecation warning). Lint/format, editable package install, `pip check`, compileall, migration/seed CLI, Compose configuration and real HTTP health/readiness/disabled-webhook checks passed. HTTP smoke waited for startup; initial connection-refused probes were not counted as successes. The restored constraint migration was exercised both on an existing damaged schema and by normal test startup.
+
+```sh
+# Dedicated disposable databases only; never use these commands on live data.
+TEST_DATABASE_URL=postgresql://nobody@127.0.0.1:55432/scout_rework pytest -q
+ruff check channelscout tests scripts
+ruff format --check channelscout tests scripts
+pip install --no-deps -e .
+pip check
+python -m compileall -q channelscout scripts
+DATABASE_URL=postgresql://nobody@127.0.0.1:55432/scout_rework_benchmark python -m channelscout.cli migrate
+DATABASE_URL=postgresql://nobody@127.0.0.1:55432/scout_rework_benchmark python -m channelscout.cli seed
+DATABASE_URL=postgresql://nobody@127.0.0.1:55432/scout_rework_benchmark python -m scripts.benchmark --output docs/debugging/rework-benchmark.json
+docker compose config --quiet
+```
+
+Raw local synthetic report: `rework-benchmark.json`. P@5 remained 0.933 (30 agent-reviewed queries, 10000 posts). Indexed query p50/p95: 3.056/3.677 ms; unindexed: 5.066/7.224 ms. This is serial warmed database-client latency including fetch, not Telegram response time. The 20-read tie-breaker probe again yielded one identity sequence; no unstable-ordering story is invented.
+
+Docker daemon is still unavailable (`docker info` failed to connect); container build/runtime remains blocked. No credentials or hosting authorization were supplied, so real Telegram/deployment tests remain unverified. No GitHub push or hosted CI run was performed in this repair session.
+
 ## Final merge/checks — pending
+
+Main-only changes to preserve: hidden validation-error inputs, the additional concurrent-edit and secret-canary tests, logical CPU benchmark metadata, and the earlier raw benchmark/verification records. The merge will keep both parents and individual fix commits; no squash/reset/force-push.

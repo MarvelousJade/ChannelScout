@@ -77,6 +77,10 @@ async def test_forward_migration_archives_duplicates_and_restores_constraints(db
                 "SELECT processed_at::text AS at FROM processed_updates WHERE update_id=1000"
             )
             assert (await cur.fetchone())["at"].startswith("2025-01-01")
+            cur = await conn.execute("SELECT update_id,payload,attempts,sent_at FROM outbox")
+            assert await cur.fetchall() == [
+                {"update_id": 1000, "payload": [], "attempts": 0, "sent_at": None}
+            ]
             for statement, params, exception in [
                 (insert, (7, "duplicate", "2025-01-04", 4), UniqueViolation),
                 ("INSERT INTO processed_updates(update_id) VALUES (1000)", (), UniqueViolation),
