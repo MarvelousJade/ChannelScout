@@ -4,30 +4,14 @@ from telegram import Update
 from psycopg.types.json import Jsonb
 
 
-INSERT_POST = """INSERT INTO posts
+UPSERT_POST = """INSERT INTO posts
     (chat_id,message_id,channel_name,username,posted_at,body,event_at,event_update_id)
-    VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"""
-UPDATE_POST = """UPDATE posts SET channel_name=%s, username=%s, body=%s,
-    event_at=%s, event_update_id=%s WHERE chat_id=%s AND message_id=%s"""
-
-
-async def store_post(conn, values):
-    cur = await conn.execute("SELECT 1 FROM posts WHERE chat_id=%s AND message_id=%s", values[:2])
-    if await cur.fetchone():
-        await conn.execute(
-            UPDATE_POST,
-            (
-                values[2],
-                values[3],
-                values[5],
-                values[6],
-                values[7],
-                values[0],
-                values[1],
-            ),
-        )
-    else:
-        await conn.execute(INSERT_POST, values)
+    VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+    ON CONFLICT (chat_id,message_id) DO UPDATE SET
+        channel_name=excluded.channel_name, username=excluded.username,
+        body=excluded.body, event_at=excluded.event_at,
+        event_update_id=excluded.event_update_id
+"""
 
 
 class Ingestor:
@@ -38,18 +22,17 @@ class Ingestor:
         async with self.db.pool.connection() as conn:
             async with conn.transaction():
                 cur = await conn.execute(
-                    "SELECT 1 FROM processed_updates WHERE update_id=%s", (update.update_id,)
+                    """INSERT INTO processed_updates(update_id) VALUES (%s)
+                    ON CONFLICT DO NOTHING RETURNING update_id""",
+                    (update.update_id,),
                 )
-                if await cur.fetchone():
+                if not await cur.fetchone():
                     return False
-                await conn.execute(
-                    "INSERT INTO processed_updates(update_id) VALUES (%s)", (update.update_id,)
-                )
                 post = update.edited_channel_post or update.channel_post
                 if post and post.chat.id in self.allowlist and post.chat.type == "channel":
                     if post.chat.username:
-                        await store_post(
-                            conn,
+                        await conn.execute(
+                            UPSERT_POST,
                             (
                                 post.chat.id,
                                 post.message_id,

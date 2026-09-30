@@ -13,6 +13,8 @@ async def db():
     await database.open()
     await database.migrate()
     async with database.pool.connection() as conn:
-        await conn.execute("TRUNCATE posts, outbox, processed_updates, search_sessions CASCADE")
+        await conn.execute(
+            "TRUNCATE posts, outbox, processed_updates, search_sessions, ingestion_repair_archive CASCADE"
+        )
     yield database
     await database.close()
