@@ -98,6 +98,7 @@ Checked current [PTB v22.8 documentation](https://docs.python-telegram-bot.org/e
 
 ## Evidence and interview material
 
+- [Resume impact and metrics](docs/resume-impact.md): evidence-backed bullet candidates, calculated improvements, reproduction steps and attribution limits.
 - [Verification](docs/verification.md): original local results and blockers.
 - [Docker/live verification](docs/live-verification.md): container checks, observed Telegram search and snippet-formatting repair.
 - [Engineering decisions](docs/engineering-decisions.md): alternatives, evidence, limits.

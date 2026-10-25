@@ -1,0 +1,47 @@
+{
+  "evidence_type": "Previously recorded local synthetic benchmark; not a fresh DB run",
+  "environment": {
+    "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.44",
+    "python": "3.14.7",
+    "logical_cpus": 12,
+    "packages": {
+      "psycopg": "3.3.6",
+      "fastapi": "0.142.2",
+      "python-telegram-bot": "22.8"
+    },
+    "label_sha256": "bc569c22414064939b28fa1e08ec67ec9c064434018b833a7aec6e9f948d16fb",
+    "posts": 10000,
+    "measurement": "Local synthetic, serial, warmed; client round-trip + fetch, no Telegram or pool wait.",
+    "postgres": "PostgreSQL 18.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 16.2.1 20260810, 64-bit",
+    "maintenance": "gin_clean_pending_list and ANALYZE after bulk seed"
+  },
+  "query_count": 30,
+  "samples_per_latency_condition": 300,
+  "quality": {
+    "baseline_normalization": 0,
+    "selected_normalization": 2,
+    "baseline_mean_precision_at_5": 0.0,
+    "selected_mean_precision_at_5": 0.9333333333333333,
+    "gain_percentage_points": 93.33333333333333,
+    "zero_result_queries": [
+      "regex parser",
+      "api page"
+    ]
+  },
+  "latency": {
+    "p50_ms": {
+      "unindexed": 4.3876854999780335,
+      "indexed": 3.111533000037525,
+      "reduction_percent": 29.084867179903785
+    },
+    "p95_ms": {
+      "unindexed": 5.514158000096359,
+      "indexed": 4.4089779999012535,
+      "reduction_percent": 20.04258855433218
+    }
+  },
+  "source": {
+    "path": "docs/benchmark-final.json",
+    "sha256": "eada46bab3363d0624f5148a45359a404c57beb583991821547f52c10a838544"
+  }
+}
